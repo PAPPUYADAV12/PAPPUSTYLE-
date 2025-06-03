@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pappu's Fashion Store</title>
+    <style>
+        :root {
+            --primary-color: #ff3f6c;
+            --secondary-color: #ff527b;
+            --dark-color: #282c3f;
+            --light-color: #f5f5f6;
+            --white-color: #ffffff;
+            --gray-color: #696e79;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--white-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .top-bar {
+            background-color: var(--dark-color);
+            color: var(--white-color);
+            padding: 8px 0;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            color: var(--dark-color);
+        }
+        
+        .search-bar {
+            display: flex;
+            width: 40%;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+        
+        .search-bar button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-actions a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .user-actions a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--white-color);
+            padding: 10px 5%;
+            border-top: 1px solid #eee;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        .nav-links li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .nav-links li a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Hero Banner */
+        .hero-banner {
+            height: 400px;
+            background-image: url('https://via.placeholder.com/1600x400');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            margin-bottom: 30px;
+        }
+        
+        .hero-content {
+            max-width: 500px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        .hero-content h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .hero-content p {
+            margin-bottom: 20px;
+            color: var(--gray-color);
+        }
+        
+        .shop-now-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .shop-now-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* Products Section */
+        .section-title {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 28px;
+            color: var(--dark-color);
+        }
+        
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 0 5%;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background-color: var(--white-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 300px;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .product-image img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .product-details {
+            padding: 15px;
+        }
+        
+        .product-brand {
+            font-size: 14px;
+            color: var(--gray-color);
+            margin-bottom: 5px;
+        }
+        
+        .product-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .current-price {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .original-price {
+            font-size: 14px;
+            color: var(--gray-color);
+            text-decoration: line-through;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 0;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white-color);
+            padding: 40px 5%;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--white-color);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            text-decoration: none;
+            color: #b6b6b6;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--white-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #3e4152;
+            font-size: 14px;
+            color: #b6b6b6;
+        }
+        
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--gray-color);
+        }
+        
+        .modal-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--dark-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--dark-color);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary-color);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 0;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .otp-container {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .otp-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .otp-inputs input {
+            width: 45px;
+            height: 45px;
+            text-align: center;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .resend-otp {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .resend-otp a {
+            color: var(--primary-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .error {
+            color: #ff0000;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .hero-banner {
+                height: 300px;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+            }
+            
+            .products-container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+                padding: 0 15px;
+            }
+            
+            .product-image {
+                height: 200px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            Free shipping on orders above ₹999 | Use code: PAPPU10
+        </div>
+        <div class="main-header">
+            <div class="logo">PAPPU<span>STYLE</span></div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for brands, products and more...">
+                <button>Search</button>
+            </div>
+            <div class="user-actions">
+                <a href="#" id="login-btn">Login</a>
+                <a href="#">Wishlist</a>
+                <a href="#">Bag</a>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#">Men</a></li>
+                <li><a href="#">Women</a></li>
+                <li><a href="#">Kids</a></li>
+                <li><a href="#">Home & Living</a></li>
+                <li><a href="#">Beauty</a></li>
+                <li><a href="#">Gifts</a></li>
+                <li><a href="#">New Arrivals</a></li>
+                <li><a href="#">Offers</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>Summer Collection 2023</h1>
+            <p>Get flat 40% off on all new arrivals. Use code PAPPU40 at checkout.</p>
+            <button class="shop-now-btn">SHOP NOW</button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <h2 class="section-title">TRENDING NOW</h2>
+    <div class="products-container">
+        <!-- Product 1 -->
+        <div class="product-card">
+            <div class="product-image">
+                <span class="discount-badge">40% OFF</span>
+                <img src="https://via.placeholder.com/200x300" alt="Product 1">
+            </div>
+            <div class="product-details">
+                <div class="product-brand">BRAND</div>
+                <div class="product-title">Men's Slim Fit Checkered Casual Shirt</div>
+                <div class="product-price">
+                    <span class="current-price">₹599</span>
+                    <span class="original-price">₹999</span>
+                </div>
+                <button class="add-to-cart">ADD TO BAG</button>
+            </div>
+        </div>
+        
+        <!-- Product 2 -->
+        <div class="product-card">
+            <div class="product-image">
+                <span class="discount-badge">30% OFF</span>
+                <img src="https://via.placeholder.com/200x300" alt="Product 2">
+            </div>
+            <div class="product-details">
+                <div class="product-brand">BRAND</div>
+                <div class="product-title">Women's Floral Print A-line Dress</div>
+                <div class="product-price">
+                    <span class="current-price">₹899</span>
+                    <span class="original-price">₹1299</span>
+                </div>
+                <button class="add-to-cart">ADD TO BAG</button>
+            </div>
+        </div>
+        
+        <!-- Product 3 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://via.placeholder.com/200x300" alt="Product 3">
+            </div>
+            <div class="product-details">
+                <div class="product-brand">BRAND</div>
+                <div class="product-title">Unisex Backpack with Laptop Sleeve</div>
+                <div class="product-price">
+                    <span class="current-price">₹1299</span>
+                    <span class="original-price">₹1599</span>
+                </div>
+                <button class="add-to-cart">ADD TO BAG</button>
+            </div>
+        </div>
+        
+        <!-- Product 4 -->
+        <div class="product-card">
+            <div class="product-image">
+                <span class="discount-badge">50% OFF</span>
+                <img src="https://via.placeholder.com/200x300" alt="Product 4">
+            </div>
+            <div class="product-details">
+                <div class="product-brand">BRAND</div>
+                <div class="product-title">Kids Cotton Printed T-shirt & Shorts Set</div>
+                <div class="product-price">
+                    <span class="current-price">₹499</span>
+                    <span class="original-price">₹999</span>
+                </div>
+                <button class="add-to-cart">ADD TO BAG</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>ONLINE SHOPPING</h3>
+                <ul>
+                    <li><a href="#">Men</a></li>
+                    <li><a href="#">Women</a></li>
+                    <li><a href="#">Kids</a></li>
+                    <li><a href="#">Home & Living</a></li>
+                    <li><a href="#">Beauty</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>CUSTOMER POLICIES</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">T&C</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Cancellation & Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>ABOUT PAPPU STYLE</h3>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>CONNECT WITH US</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">YouTube</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2023 Pappu's Fashion Store. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-modal">&times;</span>
+            <h3 class="modal-title">Login / Sign Up</h3>
+            
+            <div id="phone-form">
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" placeholder="Enter your mobile number">
+                    <div id="mobile-error" class="error">Please enter a valid 10-digit mobile number</div>
+                </div>
+                <button class="submit-btn" id="send-otp-btn">CONTINUE</button>
+            </div>
+            
+            <div id="otp-verification" class="otp-container">
+                <p>We've sent an OTP to your mobile number</p>
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1" oninput="moveToNext(this, 1)">
+                    <input type="text" maxlength="1" oninput="moveToNext(this, 2)">
+                    <input type="text" maxlength="1" oninput="moveToNext(this, 3)">
+                    <input type="text" maxlength="1" oninput="moveToNext(this, 4)">
+                    <input type="text" maxlength="1" oninput="moveToNext(this, 5)">
+                    <input type="text" maxlength="1" oninput="moveToNext(this, 6)">
+                </div>
+                <div id="otp-error" class="error">Invalid OTP. Please try again.</div>
+                <button class="submit-btn" id="verify-otp-btn">VERIFY OTP</button>
+                <div class="resend-otp">
+                    Didn't receive OTP? <a id="resend-otp">Resend OTP</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store generated OTP
+        let generatedOTP = "";
+        let userMobile = "";
+        
+        // Modal elements
+        const loginBtn = document.getElementById('login-btn');
+        const loginModal = document.getElementById('login-modal');
+        const closeModal = document.getElementById('close-modal');
+        const phoneForm = document.getElementById('phone-form');
+        const otpVerification = document.getElementById('otp-verification');
+        const sendOtpBtn = document.getElementById('send-otp-btn');
+        const verifyOtpBtn = document.getElementById('verify-otp-btn');
+        const resendOtp = document.getElementById('resend-otp');
+        const mobileInput = document.getElementById('mobile');
+        const mobileError = document.getElementById('mobile-error');
+        const otpError = document.getElementById('otp-error');
+        
+        // Open modal when login button is clicked
+        loginBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginModal.style.display = 'flex';
+        });
+        
+        // Close modal when X is clicked
+        closeModal.addEventListener('click', function() {
+            loginModal.style.display = 'none';
+            resetLoginForm();
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+                resetLoginForm();
+            }
+        });
+        
+        // Send OTP button click handler
+        sendOtpBtn.addEventListener('click', function() {
+            const mobile = mobileInput.value.trim();
+            
+            if (/^\d{10}$/.test(mobile)) {
+                // Valid mobile number
+                mobileError.style.display = 'none';
+                userMobile = mobile;
+                
+                // Generate random 6-digit OTP
+                generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                
+                // In a real app, you would send this OTP to the user's mobile
+                console.log("OTP sent to " + mobile + ": " + generatedOTP);
+                alert("OTP sent to " + mobile + ": " + generatedOTP); // For demo purposes
+                
+                // Show OTP verification
+                phoneForm.style.display = 'none';
+                otpVerification.style.display = 'block';
+                
+                // Focus first OTP input
+                document.querySelector('.otp-inputs input').focus();
+            } else {
+                // Invalid mobile number
+                mobileError.style.display = 'block';
+            }
+        });
+        
+        // Verify OTP button click handler
+        verifyOtpBtn.addEventListener('click', function() {
+            // Get entered OTP
+            let enteredOTP = "";
+            const otpInputs = document.querySelectorAll('.otp-inputs input');
+            
+            otpInputs.forEach(input => {
+                enteredOTP += input.value;
+            });
+            
+            // Validate OTP
+            if (enteredOTP === generatedOTP) {
+                // OTP is correct
+                otpError.style.display = 'none';
+                alert("Login successful! Welcome to Pappu's Fashion Store.");
+                loginModal.style.display = 'none';
+                loginBtn.textContent = userMobile; // Update login button to show mobile number
+                resetLoginForm();
+            } else {
+                // Invalid OTP
+                otpError.style.display = 'block';
+            }
+        });
+        
+        // Resend OTP
+        resendOtp.addEventListener('click', function() {
+            // Generate new OTP
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            
+            // In a real app, you would send this OTP to the user's mobile
+            console.log("New OTP sent to " + userMobile + ": " + generatedOTP);
+            alert("New OTP sent to " + userMobile + ": " + generatedOTP); // For demo purposes
+            
+            // Clear OTP inputs
+            const otpInputs = document.querySelectorAll('.otp-inputs input');
+            otpInputs.forEach(input => {
+                input.value = "";
+            });
+            
+            // Hide error and focus first input
+            otpError.style.display = 'none';
+            otpInputs[0].focus();
+        });
+        
+        // Function to move to next OTP input
+        function moveToNext(input, currentIndex) {
+            const nextIndex = currentIndex + 1;
+            
+            if (input.value.length === 1) {
+                if (nextIndex <= 6) {
+                    document.querySelector(`.otp-inputs input:nth-child(${nextIndex})`).focus();
+                }
+            }
+        }
+        
+        // Function to reset login form
+        function resetLoginForm() {
+            phoneForm.style.display = 'block';
+            otpVerification.style.display = 'none';
+            mobileInput.value = "";
+            mobileError.style.display = 'none';
+            otpError.style.display = 'none';
+            
+            const otpInputs = document.querySelectorAll('.otp-inputs input');
+            otpInputs.forEach(input => {
+                input.value = "";
+            });
+        }
+        
+        // Add to cart functionality (sample)
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productTitle = this.parentElement.querySelector('.product-title').textContent;
+                alert(productTitle + " added to your bag!");
+            });
+        });
+    </script>
+</body>
+</html>
